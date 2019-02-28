@@ -1,6 +1,7 @@
-package com.example.roomdb
+package com.example.roomdb.Dao
 
 import android.arch.persistence.room.*
+import com.example.roomdb.Tables.Task
 
 
 @Dao
@@ -17,5 +18,8 @@ interface TaskDao {
 
     @Update
     fun update(task: Task)
+
+    @Query("SELECT * FROM task WHERE email=:email")
+    fun findRepositoriesForUser(email: String): List<Task>
 
 }

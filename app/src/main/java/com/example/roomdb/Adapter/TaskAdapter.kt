@@ -1,15 +1,19 @@
-package com.example.roomdb
+package com.example.roomdb.Adapter
 
 import android.content.Context
-import android.content.Intent
 import android.widget.TextView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.roomdb.Fragment.AfterLoginFragment
+import com.example.roomdb.R
+import com.example.roomdb.Tables.Task
 
 
- class TaskAdapter(private val mCtx: Context, private val taskList: List<Task>) : RecyclerView.Adapter<TaskAdapter.TasksViewHolder>() {
+class TaskAdapter(private val mCtx: Context, private val taskList: List<Task>, private val fcommunication : FragmentCommunication) : RecyclerView.Adapter<TaskAdapter.TasksViewHolder>() {
+
+     var activity = AfterLoginFragment().activity
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TasksViewHolder {
         val view = LayoutInflater.from(mCtx).inflate(R.layout.recyclerviewitem, parent, false)
@@ -46,10 +50,14 @@ import android.view.ViewGroup
         override fun onClick(view: View) {
             val task = taskList[adapterPosition]
 
-            val intent = Intent(mCtx, UpdateTaskActivity::class.java)
-            intent.putExtra("task", task)
+            fcommunication.respond(task.email!!,task)
 
-            mCtx.startActivity(intent)
+
         }
     }
+
+     interface FragmentCommunication {
+         fun respond(email: String,task : Task)
+     }
+
 }
